@@ -1,0 +1,42 @@
+[project]
+name = "msg-auth"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+license = { text = "MIT" }
+keywords = ["Microsoft Entra", "OAuth2", "OIDC", "FastAPI"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.14",
+]
+dependencies = [
+    "authlib>=1.6.7",
+    "dotenv>=0.9.9",
+    "fastapi>=0.128.5",
+    "httpx>=0.28.1",
+    "itsdangerous>=2.2.0",
+    "uvicorn>=0.40.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/NosrednaKramGTD/msg-auth"
+Repository = "https://github.com/NosrednaKramGTD/msg-auth"
+Documentation = "https://github.com/NosrednaKramGTD/msg-auth#readme"
+
+[tool.ruff]
+line-length = 118
+target-version = "py314"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+ignore = []
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.0.0",
+    "ruff>=0.15.1",
+]
