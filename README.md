@@ -42,6 +42,8 @@ Create a `.env` file in the project root (do **not** commit it; add `.env` to `.
 | `support_group_id` | Yes | Azure AD group GUID; membership grants role `support`. |
 | `user_group_id` | Yes | Azure AD group GUID; membership grants role `user`. |
 | `DEBUG` | No | If set, session stores raw `group_ids` for troubleshooting. |
+| `ROLE_REFRESH_INTERVAL_SECONDS` | No | If set (e.g. `36000`), roles are considered stale after this many seconds and the user must log in again to refresh. Default `0` = no refresh. |
+| `SESSION_MAX_IDLE_SECONDS` | No | If set (e.g. `1800`), the user is considered inactive after this many seconds without a request and must log in again. Default `0` = disabled. |
 
 ### Azure app registration
 
@@ -73,8 +75,10 @@ Role membership is resolved with Microsoft Graph **`POST /me/checkMemberGroups`*
 
 ### Session and route protection
 
-- **Session**: Cookie-based session (e.g. `SessionMiddleware`) stores `user`, `roles`, and optionally `group_ids` (when `DEBUG` is set).
+- **Session**: Cookie-based session (e.g. `SessionMiddleware`) stores `user`, `roles`, `groups_fetched_at`, and optionally `group_ids` (when `DEBUG` is set).
 - **Route protection**: Use `Depends(require_roles("admin"))` for “must have all listed roles”, or `Depends(require_any_role("support", "admin"))` for “must have at least one of these roles”.
+
+- **Role refresh and activity**: Optionally set `ROLE_REFRESH_INTERVAL_SECONDS` to force re-login when roles are older than that (so role changes in Azure AD take effect). Set `SESSION_MAX_IDLE_SECONDS` to treat the user as inactive after that long without a request; protected routes then return 401 and the user must log in again.
 
 ### Env and imports
 

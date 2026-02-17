@@ -20,7 +20,7 @@ from starlette.middleware.sessions import SessionMiddleware
 load_dotenv()
 
 # Load .env before msg_auth so AZURE_* and SESSION_SECRET are set; Ruff E402.
-from src.msg_auth import require_any_role, require_roles  # noqa: E402
+from src.msg_auth import require_any_role, require_roles, touch_session_activity  # noqa: E402
 from src.msg_auth.router import create_auth_router  # noqa: E402
 
 SESSION_SECRET = os.getenv("SESSION_SECRET", "change-me")
@@ -48,6 +48,15 @@ ROLE_INHERITS = {
 
 app = FastAPI()
 app.add_middleware(SessionMiddleware, secret_key=SESSION_SECRET)
+
+
+@app.middleware("http")
+async def update_activity(request: Request, call_next):
+    """Update last_activity_at for logged-in users so idle timeout is accurate."""
+    response = await call_next(request)
+    if "user" in request.session:
+        touch_session_activity(request)
+    return response
 
 app.include_router(create_auth_router(ROLE_GROUPS, ROLE_INHERITS))
 

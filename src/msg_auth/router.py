@@ -45,6 +45,7 @@ def create_auth_router(role_groups: dict, role_inherits: dict):
         if os.getenv("DEBUG"):
             request.session["group_ids"] = list[str](member_groups)
         request.session["groups_fetched_at"] = int(time.time())
+        request.session["last_activity_at"] = int(time.time())
         request.session["roles"] = compute_roles(member_groups, role_groups, role_inherits)
         return RedirectResponse(url="/me")
 
@@ -58,6 +59,7 @@ def create_auth_router(role_groups: dict, role_inherits: dict):
             "group_count": len(request.session.get("roles", [])),
             "group_ids": request.session.get("roles", []),
             "groups_fetched_at": request.session.get("groups_fetched_at"),
+            "last_activity_at": request.session.get("last_activity_at"),
         }
 
     @router.get("/logout")
