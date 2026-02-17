@@ -1,7 +1,7 @@
 [project]
 name = "msg-auth"
 version = "0.1.0"
-description = "Add your description here"
+description = "FastAPI Microsoft Entra (Azure AD) OAuth2/OIDC authentication and role-based access control"
 readme = "README.md"
 requires-python = ">=3.14"
 license = { text = "MIT" }

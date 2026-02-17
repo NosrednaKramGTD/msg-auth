@@ -85,13 +85,22 @@ Role membership is resolved with Microsoft Graph **`POST /me/checkMemberGroups`*
 
 ## Endpoints
 
-| Path | Description |
-|------|-------------|
-| `GET /` | Home; returns `logged_in` and `user` from session. |
-| `GET /login` | Redirects to Microsoft login. |
-| `GET /auth/callback` | OAuth callback; exchanges code, fetches groups via Graph, computes roles, redirects to `/me`. |
-| `GET /me` | Current user and roles; redirects to `/login` if not authenticated. |
-| `GET /logout` | Clears session and redirects to `/`. |
-| `GET /admin` | Protected (requires role `admin`). |
-| `GET /support` | Protected (requires role `support`). |
-| `GET /support-or-admin` | Protected (requires role `support` or `admin`). |
+Routes are provided by **`src/msg_auth/router.py`** (auth router, mounted via `create_auth_router`) and by **`main.py`** (app-level routes).
+
+### Auth router (`src/msg_auth/router.py`)
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/login` | Redirects to the IdP (Microsoft) login page. |
+| `GET` | `/auth/callback` | OAuth callback: exchange code for token, store user and roles, redirect to `/me`. |
+| `GET` | `/me` | Current user and roles; redirects to `/login` if not authenticated. |
+| `GET` | `/logout` | Clears session and redirects to `/`. |
+
+### App (`main.py`)
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/` | Home; returns `logged_in` and `user` from session. |
+| `GET` | `/admin` | Protected (requires role `admin`). |
+| `GET` | `/support` | Protected (requires role `support`). |
+| `GET` | `/support-or-admin` | Protected (requires role `support` or `admin`). |
