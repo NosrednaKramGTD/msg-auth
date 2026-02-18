@@ -12,8 +12,8 @@ import httpx
 from authlib.integrations.starlette_client import OAuth, OAuthError
 from fastapi.responses import JSONResponse
 
-from src.msg_auth.authz_config import get_all_config_group_ids
-from src.msg_auth.protocol import OAuthProvider
+from msg_auth.authz_config import get_all_config_group_ids
+from msg_auth.protocol import OAuthProvider
 
 # Azure AD / Entra app registration env vars
 TENANT_ID = os.getenv("AZURE_TENANT_ID")

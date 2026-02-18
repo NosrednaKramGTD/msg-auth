@@ -20,8 +20,8 @@ from starlette.middleware.sessions import SessionMiddleware
 load_dotenv()
 
 # Load .env before msg_auth so AZURE_* and SESSION_SECRET are set; Ruff E402.
-from src.msg_auth import require_any_role, require_roles, touch_session_activity  # noqa: E402
-from src.msg_auth.router import create_auth_router  # noqa: E402
+from msg_auth import require_any_role, require_roles, touch_session_activity  # noqa: E402
+from msg_auth.router import create_auth_router  # noqa: E402
 
 SESSION_SECRET = os.getenv("SESSION_SECRET", "change-me")
 

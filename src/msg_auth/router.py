@@ -12,8 +12,8 @@ from authlib.integrations.starlette_client import OAuthError
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse, RedirectResponse
 
-from src.msg_auth import compute_roles
-from src.msg_auth.microsoft import MicrosoftOAuthProvider
+from msg_auth import compute_roles
+from msg_auth.microsoft import MicrosoftOAuthProvider
 
 
 def create_auth_router(role_groups: dict, role_inherits: dict):
